@@ -1,0 +1,1403 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * - Keep every @import in this top block, above @theme and the rest of the file. Install an
+ *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
+ *   build resolves @import from the filesystem. Load those with a <link> in the head() of
+ *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The design lives in this file: oklch color tokens on the shadcn variables
+ * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
+ * new tokens as needed, font tokens, and custom styles and animations.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --font-handwritten: "Caveat", cursive;
+  --font-scrapbook-serif: "Cormorant Garamond", Georgia, serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --scrapbook-red: oklch(0.49 0.17 25);
+  --background: var(--scrapbook-red);
+  --foreground: oklch(0.97 0.02 85);
+  --card: oklch(0.96 0.018 85);
+  --card-foreground: oklch(0.29 0.035 48);
+  --popover: oklch(0.96 0.018 85);
+  --popover-foreground: oklch(0.29 0.035 48);
+  --primary: oklch(0.43 0.16 25);
+  --primary-foreground: oklch(0.97 0.02 85);
+  --secondary: oklch(0.92 0.03 82);
+  --secondary-foreground: oklch(0.29 0.035 48);
+  --muted: oklch(0.92 0.03 82);
+  --muted-foreground: oklch(0.48 0.025 48);
+  --accent: oklch(0.89 0.055 20);
+  --accent-foreground: oklch(0.29 0.035 48);
+  --destructive: oklch(0.58 0.21 28);
+  --destructive-foreground: oklch(0.97 0.02 85);
+  --border: oklch(0.89 0.025 78);
+  --input: oklch(0.89 0.025 78);
+  --ring: oklch(0.77 0.09 28);
+  --chart-1: oklch(0.62 0.17 23);
+  --chart-2: oklch(0.58 0.1 145);
+  --chart-3: oklch(0.77 0.12 75);
+  --chart-4: oklch(0.69 0.11 350);
+  --chart-5: oklch(0.51 0.12 205);
+  --sidebar: oklch(0.96 0.018 85);
+  --sidebar-foreground: oklch(0.29 0.035 48);
+  --sidebar-primary: oklch(0.43 0.16 25);
+  --sidebar-primary-foreground: oklch(0.97 0.02 85);
+  --sidebar-accent: oklch(0.92 0.03 82);
+  --sidebar-accent-foreground: oklch(0.29 0.035 48);
+  --sidebar-border: oklch(0.89 0.025 78);
+  --sidebar-ring: oklch(0.77 0.09 28);
+  --paper: oklch(0.965 0.018 84);
+  --paper-bright: oklch(0.987 0.01 85);
+  --paper-edge: oklch(0.89 0.028 78);
+  --ink: oklch(0.3 0.035 48);
+  --ink-muted: oklch(0.48 0.025 48);
+  --ink-light: oklch(0.66 0.018 48);
+  --script-cream: oklch(0.97 0.025 83);
+  --muted-red: oklch(0.48 0.13 23);
+  --heart-red: oklch(0.58 0.17 20);
+  --blush: oklch(0.82 0.085 15);
+  --petal: oklch(0.96 0.025 88);
+  --leaf: oklch(0.48 0.09 142);
+  --leaf-dark: oklch(0.37 0.075 145);
+  --gold: oklch(0.8 0.14 82);
+  --metal: oklch(0.67 0.015 250);
+  --camera-body: oklch(0.96 0.02 83);
+  --camera-lens: oklch(0.22 0.035 245);
+  --camera-lens-inner: oklch(0.31 0.045 240);
+  --camera-lens-rim: oklch(0.72 0.025 235);
+  --camera-lens-glint: oklch(0.91 0.025 235);
+  --teddy: oklch(0.63 0.075 55);
+  --teddy-light: oklch(0.84 0.065 73);
+  --paper-shadow: oklch(0.16 0.035 25 / 0.36);
+  --paper-shadow-soft: oklch(0.16 0.035 25 / 0.22);
+  --heart-line: oklch(0.88 0.055 45); /* beige mixed with pink */
+  --heart-glow: oklch(0.88 0.055 45 / 0.55);
+}
+
+.dark {
+  --background: oklch(0.24 0.075 25);
+  --foreground: oklch(0.97 0.02 85);
+  --card: oklch(0.3 0.065 25);
+  --card-foreground: oklch(0.97 0.02 85);
+  --popover: oklch(0.3 0.065 25);
+  --popover-foreground: oklch(0.97 0.02 85);
+  --primary: oklch(0.88 0.05 82);
+  --primary-foreground: oklch(0.29 0.035 48);
+  --secondary: oklch(0.35 0.06 25);
+  --secondary-foreground: oklch(0.97 0.02 85);
+  --muted: oklch(0.35 0.06 25);
+  --muted-foreground: oklch(0.79 0.025 83);
+  --accent: oklch(0.4 0.08 18);
+  --accent-foreground: oklch(0.97 0.02 85);
+  --destructive: oklch(0.67 0.16 22);
+  --destructive-foreground: oklch(0.97 0.02 85);
+  --border: oklch(0.48 0.05 25);
+  --input: oklch(0.48 0.05 25);
+  --ring: oklch(0.68 0.1 28);
+  --chart-1: oklch(0.76 0.14 20);
+  --chart-2: oklch(0.7 0.11 145);
+  --chart-3: oklch(0.82 0.12 75);
+  --chart-4: oklch(0.78 0.1 350);
+  --chart-5: oklch(0.72 0.1 205);
+  --sidebar: oklch(0.3 0.065 25);
+  --sidebar-foreground: oklch(0.97 0.02 85);
+  --sidebar-primary: oklch(0.76 0.14 20);
+  --sidebar-primary-foreground: oklch(0.97 0.02 85);
+  --sidebar-accent: oklch(0.35 0.06 25);
+  --sidebar-accent-foreground: oklch(0.97 0.02 85);
+  --sidebar-border: oklch(0.48 0.05 25);
+  --sidebar-ring: oklch(0.68 0.1 28);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+    background-color: var(--scrapbook-red);
+    color: var(--color-foreground);
+    font-family: var(--font-scrapbook-serif);
+    position: relative;
+  }
+
+  *{
+    box-sizing: border-box;
+  }
+
+}
+
+figure,
+p {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+}
+
+.scrapbook {
+  --paper-grain: color-mix(in oklab, var(--paper-edge) 18%, transparent);
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: clip;
+  background: var(--scrapbook-red);
+  color: var(--script-cream);
+}
+/* Two concentric hearts (big + small inside each), behind everything */
+.scrapbook::before,
+.scrapbook::after {
+  --heart-pair: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 720'%3E%3Cdefs%3E%3Cfilter id='g' filterUnits='userSpaceOnUse' x='0' y='0' width='720' height='720'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='8' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='%23f4cfc2' stroke-opacity='0.3' stroke-linejoin='round' filter='url(%23g)'%3E%3Cpath stroke-width='1.6' transform='translate(360 360) rotate(30) scale(5) translate(-50 -48)' d='M50 88C20 65 5 48 5 30C5 16 16 8 28 8C38 8 46 14 50 22C54 14 62 8 72 8C84 8 95 16 95 30C95 48 80 65 50 88Z'/%3E%3Cpath stroke-width='1.44' transform='translate(360 360) rotate(30) scale(2.7778) translate(-50 -48)' d='M50 88C20 65 5 48 5 30C5 16 16 8 28 8C38 8 46 14 50 22C54 14 62 8 72 8C84 8 95 16 95 30C95 48 80 65 50 88Z'/%3E%3C/g%3E%3C/svg%3E");
+
+  position: fixed;
+  z-index: -1;
+  width: 720px;
+  height: 720px;
+  background-image: var(--heart-pair);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  content: "";
+  pointer-events: none;
+}
+
+/* Heart 1: left, middle-up */
+.scrapbook::before {
+  top: 30%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+}
+
+/* Heart 2: right, middle-down */
+.scrapbook::after {
+  top: 70%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+}
+
+.scrapbook-section {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+  overflow: clip;
+  padding: 3rem 4vw;
+  isolation: isolate;
+}
+
+.motion-ready .scrapbook-section .reveal-item {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms ease,
+    transform 900ms cubic-bezier(0.2, 0.7, 0.25, 1);
+}
+
+.motion-ready .scrapbook-section[data-visible="true"] .reveal-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.birthday-section {
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.birthday-composition {
+  position: relative;
+  width: min(85vw, 1088px);
+  height: min(49vh, 483px);
+  min-height: 345px;
+}
+
+.birthday-paper {
+  position: absolute;
+  background: var(--paper-bright);
+  box-shadow: 0 11px 24px var(--paper-shadow-soft);
+}
+
+.birthday-paper--back {
+  top: 8%;
+  left: 15%;
+  width: 50%;
+  height: 80%;
+  transform: rotate(6deg);
+}
+
+.birthday-paper--left {
+  top: 14%;
+  left: 27%;
+  width: 50%;
+  height: 80%;
+  transform: rotate(-8deg);
+}
+
+.birthday-envelope {
+  position: absolute;
+  top: 18%;
+  left: 18%;
+  width: 52%;
+  height: 76%;
+  background: var(--paper);
+  box-shadow: 0 18px 26px var(--paper-shadow);
+  transform: rotate(0deg);
+}
+
+.birthday-envelope::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(145deg, transparent 49.6%, var(--paper-edge) 50%, var(--paper) 50.8%);
+  clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+  content: "";
+}
+
+.envelope-flap {
+  position: absolute;
+  z-index: 1;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 85%;
+  background: var(--paper-edge);
+  clip-path: polygon(0 0, 50% 77%, 100% 0);
+}
+
+.birthday-letter {
+  position: absolute;
+  z-index: 3;
+  top: 8%;
+  right: 9%;
+  left: 9%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 75%;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper-bright);
+  box-shadow: 0 3px 10px var(--paper-shadow-soft);
+}
+
+.birthday-greeting {
+  position: relative;
+  z-index: 2;
+  color: var(--ink-muted);
+  font-family: var(--font-handwritten);
+  font-size: 34px;
+  font-weight: 500;
+  transform: rotate(-3deg);
+}
+
+.birthday-letter-mark {
+  position: absolute;
+  right: 18%;
+  bottom: 17%;
+  color: var(--heart-red);
+  font-family: var(--font-handwritten);
+  font-size: 24px;
+  transform: rotate(12deg);
+}
+
+.heart-sticker {
+  fill: var(--heart-red);
+}
+
+.heart-sticker--letter {
+  position: absolute;
+  top: 15%;
+  right: 25%;
+  width: 14px;
+  transform: rotate(13deg);
+}
+
+.heart-sticker--side {
+  position: absolute;
+  width: 16px;
+}
+
+.heart-sticker--one {
+  top: 12%;
+  right: 12%;
+  transform: rotate(12deg);
+}
+
+.heart-sticker--two {
+  bottom: 12%;
+  left:60%;
+  width: 13px;
+  transform: rotate(-12deg);
+}
+
+.camera-sticker {
+  filter: drop-shadow(0 5px 5px var(--paper-shadow-soft));
+}
+
+.camera-body {
+  fill: var(--camera-body);
+  stroke: var(--paper-edge);
+  stroke-width: 3px;
+}
+
+.camera-top {
+  fill: var(--paper);
+  stroke: var(--paper-edge);
+  stroke-width: 2px;
+}
+
+.camera-flash {
+  fill: var(--gold);
+}
+
+.camera-lens-outer {
+  fill: var(--camera-lens);
+  stroke: var(--metal);
+  stroke-width: 4px;
+}
+
+.camera-lens-inner {
+  fill: var(--camera-lens-inner);
+  stroke: var(--camera-lens-rim);
+  stroke-width: 2px;
+}
+
+.camera-lens-glint {
+  fill: var(--camera-lens-glint);
+}
+
+.camera-slot {
+  fill: none;
+  stroke: var(--ink-light);
+  stroke-linecap: round;
+  stroke-width: 3px;
+}
+
+.camera-sticker--birthday {
+  position: absolute;
+  z-index: 3  ;
+  bottom: -8%;
+  left: 1%;
+  width: 32%;
+  transform: rotate(-12deg);
+}
+
+.bouquet-image {
+  position: absolute;
+  z-index: 7;
+  top: 9%;
+  left: 68%;
+  width: 30%;
+  min-width: 180px;
+  max-width: 280px;
+  filter: drop-shadow(0 5px 5px var(--paper-shadow-soft));
+  transform: rotate(8deg);
+}
+
+.birthday-caption {
+  position: relative;
+  z-index: 2;
+  padding: 0.2rem 0.8rem;
+  color: var(--script-cream);
+  font-family: var(--font-handwritten);
+  font-size: 30px;
+  line-height: 1;
+  text-decoration: none;
+  transform: rotate(-2deg);
+}
+
+.birthday-caption:focus-visible {
+  outline: 1px dashed var(--script-cream);
+  outline-offset: 4px;
+}
+
+.album-section {
+  padding-inline: 3vw;
+}
+
+.album-spread {
+  position: relative;
+  display: grid;
+  width: min(79vw, 1120px);
+  height: min(68vh, 680px);
+  min-height: 480px;
+  grid-template-columns: minmax(0, 1fr) 34px minmax(0, 1fr);
+  filter: drop-shadow(0 18px 26px var(--paper-shadow));
+}
+
+.album-page {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(0deg, var(--paper-grain) 0 1px, transparent 1px 6px);
+}
+
+.album-page--left {
+  border-radius: 7px 1px 1px 7px;
+  box-shadow: inset -8px 0 11px color-mix(in oklab, var(--ink) 8%, transparent);
+  padding: 3.2rem 2.8rem;
+}
+
+.album-page--right {
+  border-radius: 1px 7px 7px 1px;
+  box-shadow: inset 8px 0 11px color-mix(in oklab, var(--ink) 8%, transparent);
+  padding: 2.3rem 2.2rem;
+}
+
+.album-number-lockup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+}
+
+.album-number {
+  color: var(--muted-red);
+  font-family: var(--font-scrapbook-serif);
+  font-size: 76px;
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+
+.album-paragraph {
+  width: min(100%, 290px);
+  color: var(--ink-muted);
+  font-family: var(--font-scrapbook-serif);
+  font-size: 19px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.album-page-number {
+  position: absolute;
+  bottom: 1.8rem;
+  color: var(--ink-light);
+  font-family: var(--font-handwritten);
+  font-size: 17px;
+  transform: rotate(-2deg);
+}
+
+.album-binding {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background: linear-gradient(90deg, var(--paper-edge), var(--paper), var(--paper-edge));
+}
+
+.album-binding span {
+  display: block;
+  width: 36px;
+  height: 16px;
+  border: 3px solid var(--metal);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--paper-bright), var(--metal), var(--paper-bright));
+  box-shadow: 0 2px 3px var(--paper-shadow-soft);
+}
+
+.album-polaroid {
+  position: relative;
+  z-index: 2;
+  width: min(69%, 350px);
+  padding: 12px 12px 56px;
+  transform: rotate(2.5deg);
+}
+
+.polaroid {
+  position: relative;
+  flex: none;
+  background: var(--paper-bright);
+  box-shadow: 0 12px 21px var(--paper-shadow);
+}
+
+.polaroid img {
+  width: 100%;
+  object-fit: cover;
+  background: var(--paper-edge);
+}
+
+.polaroid figcaption {
+  position: absolute;
+  right: 4px;
+  bottom: 8px;
+  left: 4px;
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-family: var(--font-handwritten);
+  font-size: 17px;
+  line-height: 1.15;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-polaroid img {
+  aspect-ratio: 1 / 1;
+}
+
+.album-decorative-tape {
+  position: absolute;
+  z-index: 2;
+  top: 27%;
+  left: 9%;
+  display: flex;
+  height: 35%;
+  gap: 4px;
+  transform: rotate(-3deg);
+}
+
+.album-decorative-tape span {
+  width: 8px;
+  background: repeating-linear-gradient(0deg, var(--heart-red) 0 8px, var(--paper-bright) 8px 16px);
+  opacity: 0.82;
+}
+
+.heart-sticker--album {
+  position: absolute;
+  z-index: 4;
+  top: 18%;
+  right: 19%;
+  width: 15px;
+  fill: var(--blush);
+  transform: rotate(12deg);
+}
+
+.star-sticker {
+  fill: var(--gold);
+}
+
+.star-sticker--album {
+  position: absolute;
+  right: 10%;
+  bottom: 20%;
+  width: 21px;
+  transform: rotate(9deg);
+}
+
+
+.memories-section {
+  padding-block: 4rem;
+}
+
+.memories-rows {
+  display: flex;
+  width: min(74vw, 1010px);
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.memories-row {
+  display: grid;
+  min-height: 39vh;
+  align-items: center;
+  column-gap: 9%;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.memories-row--second {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+}
+
+.memory-photo-wrap {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-photo-wrap--portrait {
+  min-height: 350px;
+}
+
+.memory-envelope-paper {
+  position: absolute;
+  top: 7%;
+  left: 16%;
+  width: 72%;
+  height: 82%;
+  background: var(--paper);
+  box-shadow: 0 10px 18px var(--paper-shadow-soft);
+  clip-path: polygon(0 15%, 50% 0, 100% 14%, 100% 100%, 0 100%);
+  transform: rotate(3deg);
+}
+
+.memory-envelope-paper span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background: var(--paper-edge);
+  clip-path: polygon(0 60%, 50% 0, 100% 60%, 50% 100%);
+}
+
+.memory-polaroid--portrait {
+  z-index: 2;
+  width: min(65%, 255px);
+  padding: 10px 10px 44px;
+  transform: rotate(-4deg);
+}
+
+.memory-polaroid--portrait img {
+  aspect-ratio: 0.77 / 1;
+}
+
+.memory-polaroid--portrait figcaption {
+  bottom: 6px;
+  font-size: 15px;
+}
+
+.memory-copy {
+  max-width: 390px;
+  color: var(--script-cream);
+  font-family: var(--font-scrapbook-serif);
+  font-size: 19px;
+  line-height: 1.48;
+}
+
+.memory-photo-wrap--landscape {
+  min-height: 300px;
+}
+
+.memory-polaroid--landscape {
+  z-index: 1;
+  width: min(100%, 400px);
+  padding: 10px 10px 48px;
+  transform: rotate(3deg);
+}
+
+.memory-polaroid--landscape img {
+  aspect-ratio: 1.48 / 1;
+}
+
+.memory-polaroid--landscape figcaption {
+  bottom: 7px;
+}
+
+.masking-tape {
+  position: absolute;
+  z-index: 3;
+  width: 82px;
+  height: 25px;
+  background: color-mix(in oklab, var(--paper-bright) 88%, transparent);
+  box-shadow: 0 2px 4px var(--paper-shadow-soft);
+}
+
+.masking-tape--upper {
+  top: 2%;
+  right: 9%;
+  transform: rotate(34deg);
+}
+
+.masking-tape--lower {
+  bottom: 4%;
+  left: 8%;
+  transform: rotate(-33deg);
+}
+
+.star-sticker--memory {
+  position: absolute;
+  z-index: 4;
+  right: -4%;
+  bottom: 9%;
+  width: 20px;
+  transform: rotate(12deg);
+}
+
+.letter-section {
+  padding-block: 4rem;
+}
+
+.letter-composition {
+  position: relative;
+  width: min(76vw, 1010px);
+  height: min(59vh, 590px);
+  min-height: 430px;
+}
+
+.stamp-paper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 78%;
+  filter: drop-shadow(0 16px 20px var(--paper-shadow));
+}
+
+.stamp-paper-shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.stamp-paper-shape path {
+  fill: var(--paper);
+  stroke: var(--paper-bright);
+  stroke-width: 2px;
+}
+
+.letter-paper-content {
+  position: absolute;
+  top: 11%;
+  bottom: 9%;
+  left: 11%;
+  width: 72%;
+  color: var(--ink-muted);
+}
+
+.letter-top-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.letter-ribbon {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 23px;
+}
+
+.letter-ribbon span:first-child,
+.letter-ribbon span:last-child {
+  position: absolute;
+  top: 1px;
+  width: 15px;
+  height: 13px;
+  border: 2px solid var(--blush);
+  border-radius: 70% 15% 70% 15%;
+}
+
+.letter-ribbon span:first-child {
+  left: 0;
+  transform: rotate(8deg);
+}
+
+.letter-ribbon span:last-child {
+  right: 0;
+  transform: rotate(82deg);
+}
+
+.star-sticker--letter {
+  width: 15px;
+  transform: rotate(12deg);
+}
+
+.letter-salutation,
+.letter-signoff {
+  color: var(--ink);
+  font-family: var(--font-handwritten);
+  font-size: 27px;
+  line-height: 1.1;
+}
+
+.letter-salutation {
+  margin-top: 2.3rem;
+  margin-bottom: 0.45rem;
+}
+
+.letter-body-copy {
+  max-width: 360px;
+  color: var(--ink-muted);
+  font-family: var(--font-scrapbook-serif);
+  font-size: 18px;
+  line-height: 1.38;
+}
+
+.letter-body-copy--hope {
+  margin-top: 0.7rem;
+}
+
+.letter-signoff {
+  margin-top: 0.75rem;
+  font-size: 25px;
+}
+
+.teddy-sticker {
+  position: absolute;
+  bottom: -1%;
+  left: -2%;
+  width: 60px;
+  filter: drop-shadow(0 2px 3px var(--paper-shadow-soft));
+  transform: rotate(-8deg);
+}
+
+.teddy-fur {
+  fill: var(--teddy);
+  stroke: var(--paper-bright);
+  stroke-width: 2px;
+}
+
+.teddy-ear,
+.teddy-muzzle {
+  fill: var(--teddy-light);
+}
+
+.teddy-eye,
+.teddy-nose {
+  fill: var(--ink);
+}
+
+.teddy-ribbon {
+  fill: var(--blush);
+}
+
+.camera-sticker--letter {
+  position: absolute;
+  bottom: -8%;
+  left: 8%;
+  width: 95px;
+  transform: rotate(-6deg);
+}
+
+.letter-photo-wrap {
+  position: absolute;
+  z-index: 3;
+  top: 5%;
+  right: 1%;
+  width: 37%;
+  transform: rotate(3deg);
+}
+
+.letter-polaroid {
+  width: 100%;
+  padding: 12px 12px 51px;
+  box-shadow: 0 17px 24px var(--paper-shadow);
+}
+
+.letter-polaroid img {
+  aspect-ratio: 0.79 / 1;
+}
+
+.heart-sticker--letter-photo {
+  position: absolute;
+  z-index: 4;
+  top: -3%;
+  right: -3%;
+  width: 20px;
+  fill: var(--blush);
+  transform: rotate(17deg);
+}
+
+.star-sticker--photo {
+  position: absolute;
+  z-index: 4;
+  right: -3%;
+  bottom: -4%;
+  width: 18px;
+  transform: rotate(10deg);
+}
+
+@media (max-width: 800px) {
+  .scrapbook-section {
+    padding-inline: 1.25rem;
+  }
+
+  .birthday-section {
+    margin:10px;
+    min-height: 93svh;
+  }
+
+  .birthday-composition {
+    width: min(94vw, 780px);
+    height: min(43vh, 360px);
+    min-height: 250px;
+  }
+
+  .birthday-paper--back {
+    left: 8%;
+    width: 55%;
+  }
+
+  .birthday-paper--left {
+    left: 5%;
+    width: 55%;
+  }
+
+  .birthday-envelope {
+    left: 20%;
+    width: 55%;
+  }
+
+  .birthday-greeting {
+    font-size: 29px;
+  }
+
+  .bouquet-image {
+    top: 40%;
+    left: 72%;
+    width: 40%;
+    height:70%;
+    min-width: 150px;
+    max-width: 220px;
+    transform: rotate(8deg);
+  }
+
+  .album-section {
+    margin-top: 90px;
+    min-height: 92svh;
+    padding-inline: 1rem;
+  }
+
+  .album-spread {
+    width: min(94vw, 760px);
+    height: min(66vh, 600px);
+    min-height: 430px;
+    grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
+  }
+
+  .album-page {
+  position: relative;
+  display: flex;
+  max-height: 75%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(0deg, var(--paper-grain) 0 1px, transparent 1px 6px);
+}
+
+
+  .album-page--left {
+    padding: 2rem 1.2rem;
+  }
+
+  .album-page--right {
+    padding: 1.7rem 1.1rem;
+  }
+
+  .album-number {
+    font-size: 62px;
+  }
+
+  .album-paragraph {
+    font-size: 17px;
+  }
+
+  .album-polaroid {
+    width: 81%;
+    padding: 9px 9px 46px;
+  }
+
+  .album-decorative-tape {
+    left: 3%;
+  }
+
+  .album-decorative-tape span {
+    width: 6px;
+  }
+
+  .album-binding span {
+    width: 30px;
+    height: 14px;
+  }
+
+  .album-binding{
+    height: 420px;
+  }
+
+  .memories-rows {
+    width: min(84vw, 850px);
+    gap: 2.5rem;
+  }
+
+  .memories-row {
+    min-height: 36vh;
+    column-gap: 6%;
+  }
+
+  .memory-copy {
+    font-size: 18px;
+  }
+
+  .letter-composition {
+    width: min(85vw, 850px);
+    height: min(58vh, 520px);
+    min-height: 400px;
+  }
+
+  .letter-body-copy {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 560px) {
+  .scrapbook-section {
+    padding: 3rem 1.1rem;
+  }
+
+  .birthday-section {
+    min-height: 88svh;
+  }
+
+  .birthday-composition {
+    width: 96vw;
+    height: 43vh;
+    min-height: 265px;
+    max-height: 334px;
+  }
+
+  .birthday-paper--back {
+    top: 8%;
+    left: 17%;
+    width: 60%;
+    height: 68%;
+    transform: rotate(6deg);
+  }
+
+  .birthday-paper--left {
+    top: 10%;
+    left: 10%;
+    width: 60%;
+    height: 68%;
+    transform: rotate(-5deg);
+  }
+
+  .birthday-envelope {
+    top: 18%;
+    left: 18%;
+    width: 58%;
+    height: 54%;
+    transform: rotate(-1deg);
+  }
+
+  .birthday-greeting {
+    font-size: 25px;
+  }
+
+  .camera-sticker--birthday {
+    bottom: 12%;
+    left: 8%;
+    width: 26%;
+    transform: rotate(-12deg);
+  }
+
+  .bouquet-image {
+    top: 25%;
+    left: 64%;
+    width: 38%;
+    height: 60%;
+    min-width: 130px;
+    max-width: 180px;
+    transform: rotate(6deg);
+  }
+
+  /* ADD THIS */
+  @media (max-width: 560px) {
+  .album-section {
+    min-height: 86svh;
+    padding-block: 2.4rem;
+  }
+}
+
+  .album-section {
+    min-height: 86svh;
+    padding-block: 2.4rem;
+  }
+
+  .album-spread {
+    width: 95vw;
+    height: auto;
+    min-height: 560px;
+    grid-template-columns: minmax(0, 1fr) 21px minmax(0, 1fr);
+  }
+
+  .album-page--left {
+    padding: 1.4rem 0.7rem;
+  }
+
+  .album-page--right {
+    padding: 1.3rem 0.65rem;
+  }
+
+  .album-number {
+    font-size: 54px;
+  }
+
+  
+  .album-paragraph {
+    font-size: 15px;
+    line-height: 1.42;
+  }
+
+  .album-page-number {
+    right: 0.25rem;
+    bottom: 0.9rem;
+    left: 0.25rem;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .album-polaroid {
+    width: 86%;
+    padding: 6px 6px 36px;
+  }
+
+  .album-polaroid figcaption {
+    bottom: 5px;
+    font-size: 13px;
+  }
+
+  .album-binding span {
+    width: 24px;
+    height: 12px;
+    border-width: 2px;
+  }
+
+  .heart-sticker--album {
+    top: 21%;
+    right: 9%;
+    width: 13px;
+  }
+
+  .star-sticker--album {
+    right: 7%;
+    bottom: 15%;
+    width: 16px;
+  }
+
+  
+  .album-decorative-tape {
+    top: 25%;
+    left: 0;
+    height: 29%;
+    gap: 2px;
+  }
+
+  .album-decorative-tape span {
+    width: 4px;
+  }
+
+  .memories-section {
+    min-height: auto;
+    padding-block: 4rem;
+  }
+
+  .memories-rows {
+    width: 100%;
+    gap: 3.5rem;
+  }
+
+  .memories-row,
+  .memories-row--second {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1.5rem;
+  }
+
+  .memory-photo-wrap--portrait {
+    min-height: 340px;
+  }
+
+  .memory-polaroid--portrait {
+    width: min(70%, 250px);
+  }
+
+  .memory-copy {
+    max-width: 38ch;
+    justify-self: center;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .memories-row--second .memory-copy {
+    grid-row: 1;
+  }
+
+  .memory-photo-wrap--landscape {
+    min-height: 265px;
+  }
+
+  .memory-polaroid--landscape {
+    width: min(92%, 410px);
+  }
+
+  .letter-section {
+    min-height: 90svh;
+    padding-block: 2.5rem;
+  }
+
+  .letter-composition {
+    width: 94vw;
+    height: min(82svh, 680px);
+    min-height: 590px;
+  }
+
+  .stamp-paper {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 71%;
+  }
+
+  .letter-paper-content {
+    top: 10%;
+    bottom: 8%;
+    left: 11%;
+    width: 72%;
+  }
+
+  .letter-top-decorations {
+    gap: 10px;
+  }
+
+  .letter-salutation {
+    margin-top: 2.1rem;
+    font-size: 25px;
+  }
+
+  .letter-body-copy {
+    max-width: 100%;
+    font-size: 16px;
+    line-height: 1.32;
+  }
+
+  .letter-body-copy--hope {
+    margin-top: 0.55rem;
+  }
+
+  .letter-signoff {
+    margin-top: 0.5rem;
+    font-size: 23px;
+  }
+
+  .teddy-sticker {
+    bottom: 0;
+    left: -2%;
+    width: 39px;
+  }
+
+  .camera-sticker--letter {
+    bottom: -6%;
+    left: 8%;
+    width: 63px;
+    transform: rotate(-6deg);
+  }
+
+  .letter-photo-wrap {
+    top: auto;
+    right: 3%;
+    bottom: 14%;
+    width: 47%;
+    transform: rotate(3deg);
+  }
+
+  .letter-polaroid {
+    padding: 8px 8px 40px;
+  }
+
+  .letter-polaroid figcaption {
+    bottom: 6px;
+    font-size: 15px;
+  }
+
+  .heart-sticker--letter-photo {
+    right: -3%;
+    width: 17px;
+  }
+
+  .star-sticker--photo {
+    right: -3%;
+    bottom: -4%;
+    width: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
